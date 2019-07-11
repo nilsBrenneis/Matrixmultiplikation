@@ -10,7 +10,7 @@ public class MultiplyRowAndColumn implements Runnable {
   private CalculationResults primesResult;
 
 
-  public MultiplyRowAndColumn(int row, int column, CalculationResults primesResult) {
+  MultiplyRowAndColumn(int row, int column, CalculationResults primesResult) {
     this.row = row;
     this.column = column;
     this.primesResult = primesResult;
@@ -22,7 +22,6 @@ public class MultiplyRowAndColumn implements Runnable {
     for (int i = 0; i < Matrices.matrixOne[0].length; i++) {
       scalarResult += Matrices.matrixOne[row][i] * Matrices.matrixTwo[i][column];
     }
-    //System.out.println(row + " | " + column + " Ergebnis: " + scalarResult);
     primesResult.addResult(new Result(row, column, scalarResult));
   }
 }
