@@ -7,23 +7,17 @@ import de.bre.threadpool.MyThreadPoolExecutor;
 public class App {
 
   public static void main(String[] args) {
-    double[][] matrix2x3 = new double[][]{{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}};
-    double[][] matrix3x3 = new double[][]{{1.0, 4.0, 5.0}, {2.0, 5.0, 8.0}, {3.0, 6.0, 7.0}};
-
-    double[][] randMatrixOne = createRandomMatrix(4000, 10000, 100, 0);
-    //printlnMatrix(randMatrixOne);
-    double[][] randMatrixTwo = createRandomMatrix(10000, 40000, 100, 0);
-    //printlnMatrix(randMatrixTwo);
+    double[][] randMatrixOne = createRandomMatrix(4000, 1000, 100, 0);
+    double[][] randMatrixTwo = createRandomMatrix(1000, 9000, 100, 0);
 
     try {
       multiplyMatrices(randMatrixOne, randMatrixTwo);
-      printlnMatrix(multiplyMatrices(matrix2x3, matrix3x3));
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
   }
 
-  public static double[][] multiplyMatrices(double[][] matrixOne, double[][] matrixTwo)
+  static double[][] multiplyMatrices(double[][] matrixOne, double[][] matrixTwo)
       throws InterruptedException {
     new Matrices();
     Matrices.matrixOne = matrixOne;
@@ -41,7 +35,7 @@ public class App {
         mtpe.execute(pn);
       }
     }
-    double resultMatrix[][] = new double[Matrices.matrixOne.length][Matrices.matrixTwo[0].length];
+    double[][] resultMatrix = new double[Matrices.matrixOne.length][Matrices.matrixTwo[0].length];
 
     Result[] scalarResults = calculationResults.waitForResults();
     for (Result scalarResult : scalarResults) {
@@ -52,10 +46,10 @@ public class App {
     return resultMatrix;
   }
 
-  private static void printlnMatrix(double[][] matrix) {
-    for (int column = 0; column < matrix.length; column++) {
+  static void printlnMatrix(double[][] matrix) {
+    for (double[] doubles : matrix) {
       for (int row = 0; row < matrix[0].length; row++) {
-        System.out.print(matrix[column][row] + " ");
+        System.out.print(doubles[row] + " ");
       }
       System.out.println();
     }

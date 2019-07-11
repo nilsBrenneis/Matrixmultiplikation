@@ -2,15 +2,12 @@ package de.bre.threadpool;
 
 import java.util.concurrent.BlockingQueue;
 
-/**
- * Created by nils on 21.02.13.
- */
 class PoolThread extends Thread {
 
-  private BlockingQueue<Runnable> taskQueue = null;
+  private BlockingQueue<Runnable> taskQueue;
   private boolean isStopped = false;
 
-  public PoolThread(BlockingQueue<Runnable> queue) {
+  PoolThread(BlockingQueue<Runnable> queue) {
     taskQueue = queue;
   }
 
@@ -21,7 +18,7 @@ class PoolThread extends Thread {
         Runnable runnable = taskQueue.take();
         runnable.run();
       } catch (InterruptedException e) {
-        //erwünschtes Verhalten, wenn ThreadPoolExecutor gestoppt wird
+        //desireable behavior when ThreadPoolExecutor gets stopped
       } catch (Exception e) {
         e.printStackTrace();
         System.exit(0);
@@ -29,7 +26,7 @@ class PoolThread extends Thread {
     }
   }
 
-  public synchronized void halt() {
+  synchronized void halt() {
     isStopped = true;
     this.interrupt(); //break pool thread out of dequeue() call.
   }
