@@ -3,12 +3,14 @@ package de.bre;
 import de.bre.datatypes.Matrices;
 import de.bre.datatypes.Result;
 import de.bre.threadpool.MyThreadPoolExecutor;
+import java.util.Random;
 
 public class App {
 
   public static void main(String[] args) {
-    double[][] randMatrixOne = createRandomMatrix(4000, 1000, 100, 0);
-    double[][] randMatrixTwo = createRandomMatrix(1000, 9000, 100, 0);
+
+    double[][] randMatrixOne = createRandomMatrix(3000, 4000, 100, 0);
+    double[][] randMatrixTwo = createRandomMatrix(4000, 3000, 100, 0);
 
     try {
       multiplyMatrices(randMatrixOne, randMatrixTwo);
@@ -24,7 +26,7 @@ public class App {
     Matrices.matrixTwo = matrixTwo;
     int countResultsExpected = Matrices.matrixOne.length * Matrices.matrixTwo[0].length;
 
-    final int noOfThreads = 20;
+    final int noOfThreads = 16;
     final int maxNoOfTasks = countResultsExpected + 100;
     MyThreadPoolExecutor mtpe = new MyThreadPoolExecutor(noOfThreads, maxNoOfTasks);
     CalculationResults calculationResults = new CalculationResults(countResultsExpected);
@@ -58,10 +60,11 @@ public class App {
 
   private static double[][] createRandomMatrix(int rowLen, int columnLen, double range,
       double min) {
+    Random random = new Random(42);
     double[][] matrix = new double[columnLen][rowLen];
     for (int i = 0; i < matrix[0].length; i++) {
       for (int j = 0; j < matrix.length; j++) {
-        matrix[j][i] = Math.random() * range + min;
+        matrix[j][i] = random.nextDouble() * range + min;
       }
     }
     return matrix;
